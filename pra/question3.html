@@ -1,0 +1,63 @@
+<html>
+<body>
+<form >
+Enter your sentence:<input type="textArea" id="langSentence">
+Detected language is:<input type="text" id="langSent">
+<input type="button" value="detect" onclick="fun()" >
+</form>
+<script>
+let output;
+function fun()
+{
+const input=document.getElementById("langSentence").value;
+const v={q:input};
+
+const req=new XMLHttpRequest();
+req.withCredentials = true;
+req.onreadystatechange=function ()
+			{
+				if(req.readyState==4)
+				{	console.log(JSON.parse(req.responseText).data.detections[0][0].language);		
+					output=JSON.parse(req.responseText).data.detections[0][0].language;
+
+
+					const languageCodes = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "az": "Azerbaijani", "eu": "Basque", "be": "Belarusian", "bn": "Bengali", "bs": "Bosnian", "bg": "Bulgarian", "ca": "Catalan",
+  "ceb (ISO-639-2)": "Cebuano", "zh-CN (BCP-47)": "Chinese (Simplified)", "zh-TW (BCP-47)": "Chinese (Traditional)", "co": "Corsican",
+  "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "eo": "Esperanto",
+  "et": "Estonian", "fi": "Finnish", "fr": "French", "fy": "Frisian", "gl": "Galician", "ka": "Georgian",
+  "de": "German", "el": "Greek", "gu": "Gujarati", "ht": "Haitian Creole", "ha": "Hausa", "haw (ISO-639-2)": "Hawaiian",
+  "he**": "Hebrew", "hi": "Hindi", "hmn (ISO-639-2)": "Hmong", "hu": "Hungarian", "is": "Icelandic", "ig": "Igbo",
+  "id": "Indonesian", "ga": "Irish", "it": "Italian", "ja": "Japanese", "jw": "Javanese", "kn": "Kannada",
+  "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "lo": "Lao",
+  "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "lb": "Luxembourgish", "mk": "Macedonian", "mg": "Malagasy",
+  "ms": "Malay", "ml": "Malayalam", "mt": "Maltese", "mi": "Maori", "mr": "Marathi", "mn": "Mongolian",
+  "my": "Myanmar (Burmese)", "ne": "Nepali", "no": "Norwegian", "ny": "Nyanja (Chichewa)", "ps": "Pashto", "fa": "Persian",
+  "pl": "Polish", "pt": "Portuguese (Portugal, Brazil)", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sm": "Samoan",
+  "gd": "Scots Gaelic", "sr": "Serbian", "st": "Sesotho", "sn": "Shona", "sd": "Sindhi", "si": "Sinhala (Sinhalese)",
+  "sk": "Slovak", "sl": "Slovenian", "so": "Somali", "es": "Spanish", "su": "Sundanese", "sw": "Swahili",
+  "sv": "Swedish", "tl": "Tagalog (Filipino)", "tg": "Tajik", "ta": "Tamil", "te": "Telugu", "th": "Thai",
+  "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh",
+  "xh": "Xhosa", "yi": "Yiddish", "yo": "Yoruba", "zu": "Zulu"
+};
+
+						if (languageCodes.hasOwnProperty(output)) {
+							  document.getElementById("langSent").value=languageCodes[output];
+						} 
+				}
+			};
+req.open("POST",'https://google-translate1.p.rapidapi.com/language/translate/v2/detect');
+req.setRequestHeader('X-RapidAPI-Key', 'b24d2c8e2cmshaf26421c2b4b42ep1dc00djsnd48187766e29');
+req.setRequestHeader('X-RapidAPI-Host', 'google-translate1.p.rapidapi.com');
+req.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+
+var convdata= new URLSearchParams(v).toString();
+
+req.send(convdata);
+
+
+
+
+}
+</script>
+</body>
+</html>

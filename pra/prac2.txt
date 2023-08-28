@@ -1,0 +1,215 @@
+----dtd-----
+<DOCTYPE books[
+<!ELEMENT books (book+)>
+<!ELEMENT book (authors, title, price, publishdate)>
+<!ELEMENT authors (author+)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+<!ELEMENT publishdate (#PCDATA)>
+<!ATTLIST book id ID #REQUIRED>
+]>
+
+--xsd---
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema>
+
+    <xs:element name="books" type="BooksType"/>
+    
+    <xs:complexType name="BooksType">
+        <xs:sequence>
+            <xs:element name="book" type="BookType"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="BookType">
+        <xs:sequence>
+            <xs:element name="authors" type="AuthorsType"/>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="price" type="xs:decimal"/>
+            <xs:element name="publishdate" type="xs:date"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="AuthorsType">
+        <xs:sequence>
+            <xs:element name="author" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>
+
+------json------
+
+{
+  "books": [
+    {
+      "id": "bk101",
+      "authors": {
+        "author": ["Gambardella", "Matthew"]
+      },
+      "title": "XML Developers Guide",
+      "price": 650,
+      "publishdate": "2000-10-01"
+    },
+    {
+      "id": "bk102",
+      "authors": {
+        "author": ["Rails", "Kim"]
+      },
+      "title": "Midnight Rain",
+      "price": 225,
+      "publishdate": "2000-12-16"
+    }
+  ]
+}
+
+-----ajax post call-----
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AJAX POST with jQuery</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<button id="sendButton">Send AJAX POST</button>
+<div id="result"></div>
+
+<script>
+$(document).ready(function() {
+  $("#sendButton").click(function() {
+    const dataToSend = {
+      name: "John Doe",
+      email: "john@example.com"
+    };
+
+    $.ajax({
+      url: "https://api.example.com/post-endpoint",
+      type: "POST",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify(dataToSend),
+      success: function(response) {
+        // Parse the JSON response
+        const parsedResponse = JSON.parse(response);
+        
+        // Display the parsed response
+        $("#result").html("Received response:<br>" + JSON.stringify(parsedResponse, null, 2));
+      },
+      error: function(xhr, status, error) {
+        console.error("AJAX error:", error);
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
+
+-----call backs-----
+// Example AJAX call using callback functions
+$.ajax({
+  url: 'https://api.example.com/data',
+  method: 'GET',
+  success: function(response) {
+    // Callback function for successful response
+    console.log('Data fetched successfully:', response);
+  },
+  error: function(xhr, status, error) {
+    // Callback function for error
+    console.error('Error fetching data:', error);
+  },
+  complete: function() {
+    // Callback function that runs after success or error
+    console.log('AJAX call completed.');
+  }
+});
+
+-----http stateless-----
+<!DOCTYPE html>
+<html>
+  <pre id="demo"></pre>
+<label >name</label>
+<input type="text" id="t1">
+
+  <script>
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        document.getElementById("demo").innerHTML = this.responseText;
+	console.log("dfjkh");
+	const var1=JSON.parse(xmlhttp.responseText);
+	document.getElementById("t1").value=var1[0].state;
+      }
+    };
+   xmlhttp.open('POST', 'https://std.p.rapidapi.com/');
+xmlhttp.setRequestHeader('content-type', 'application/json');
+xmlhttp.setRequestHeader('X-RapidAPI-Key', '1329f0ccc1msh70c24d9fc1a88c8p146fd2jsn223019fe1b4f');
+xmlhttp.setRequestHeader('X-RapidAPI-Host', 'std.p.rapidapi.com');
+
+    xmlhttp.send();
+  </script>
+</html>
+----dom objects-----
+Certainly! DOM (Document Object Model) objects are representations of elements in an HTML document that can be manipulated using JavaScript. Each DOM object corresponds to an element in the HTML structure, and they provide properties and methods to interact with and manipulate the content and behavior of web pages. Here are five DOM objects along with one method each, their syntax, and purposes:
+
+Document Object (document):
+Syntax: document.methodName(parameters)
+Purpose: The document object represents the entire HTML document. It provides methods and properties to manipulate and access various aspects of the document.
+
+Example Method: getElementById(id)
+Purpose: This method retrieves an element from the document using its id attribute.
+
+javascript
+Copy code
+const myElement = document.getElementById('myElementId');
+Element Object (HTMLElement):
+Syntax: element.methodName(parameters)
+Purpose: The Element object represents an HTML element. It provides methods and properties to manipulate and interact with individual elements on the page.
+
+Example Method: setAttribute(name, value)
+Purpose: This method sets the value of an attribute on the element.
+
+javascript
+Copy code
+const myElement = document.getElementById('myElementId');
+myElement.setAttribute('class', 'newClassName');
+Event Object (Event):
+Syntax: event.methodName(parameters)
+Purpose: The Event object represents an event that occurs on an element, such as a mouse click or keyboard input. It provides methods and properties related to the event.
+
+Example Method: preventDefault()
+Purpose: This method prevents the default action associated with an event.
+
+javascript
+Copy code
+myElement.addEventListener('click', function(event) {
+  event.preventDefault();
+});
+Node Object (Node):
+Syntax: node.methodName(parameters)
+Purpose: The Node object represents a node in the DOM tree. It's a generic object that provides common properties and methods for various types of nodes.
+
+Example Method: appendChild(childNode)
+Purpose: This method adds a child node to the end of the list of children of a specified parent node.
+
+javascript
+Copy code
+const parent = document.getElementById('parentElementId');
+const child = document.createElement('div');
+parent.appendChild(child);
+Window Object (window):
+Syntax: window.methodName(parameters)
+Purpose: The window object represents the browser window or tab containing the document. It provides methods and properties for controlling the browser's behavior.
+
+Example Method: open(url, target)
+Purpose: This method opens a new browser window or tab with the specified URL and target.
+
+javascript
+Copy code
+window.open('https://www.example.com', '_blank');
+Remember that these are just a few examples of DOM objects and methods. The DOM provides a wide range of objects and functionalities for web developers to manipulate and interact with web content using JavaScript.
+

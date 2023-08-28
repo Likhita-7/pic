@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>hotels table</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<center>
+	<h1>hotels</h1>
+</center>
+<div class "tablec" id="tablecontainer"></div>
+</head>
+<body>
+	
+<script>
+	var tcon=document.getElementById("tablecontainer");
+	var table=document.createElement("table");
+	tcon.appendChild(table);
+	table.setAttribute("id","tabledata");
+	
+	//table creation and heading
+	var headingrow=table.insertRow();
+	['fullName','shortName','sourceName','lat'].forEach(x=>{
+		var trow=document.createElement("th");
+		trow.textContent=x;
+		headingrow.appendChild(trow);
+	});
+	
+	//fetch data from api
+	
+	const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://hotels4.p.rapidapi.com/locations/v3/search?q=new%20york&locale=en_US&langid=1033&siteid=300000001',
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '1329f0ccc1msh70c24d9fc1a88c8p146fd2jsn223019fe1b4f',
+		'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+	console.log(response);
+	var data=response;
+	
+	var tableref=document.getElementById("tabledata");
+	for (var i = 0; i < data.sr.length; i++) {
+                var rowd = tableref.insertRow();
+                var cell1 = rowd.insertCell();
+                var cell2 = rowd.insertCell();
+                var cell3 = rowd.insertCell();
+                var cell4 = rowd.insertCell();
+				//console.log(data[i].sr.regionNames.fullName);
+                cell1.textContent = data.sr[i].regionNames.fullName;
+                cell2.textContent = data.sr[i].regionNames.shortName;
+                cell3.textContent = data.sr[i].essId.sourceName; 
+                cell4.textContent = data.sr[i].coordinates.lat;
+            }
+});
+
+
+
+</script>
+</body>
+</html>
